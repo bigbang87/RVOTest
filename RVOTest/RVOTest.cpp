@@ -1,16 +1,17 @@
 #include "RVOTest.h"
+
 #include <QVBoxLayout>
+#include <QGraphicsItem>
 
 RVOTest::RVOTest(QWidget* parent)
 	: QMainWindow(parent)
 {
 	ui.setupUi(this);
-	this->setWindowFlag(Qt::FramelessWindowHint);
+	//this->setWindowFlag(Qt::FramelessWindowHint);
 	m_QScene = std::make_unique<QGraphicsScene>();
 
-	m_QScene->setSceneRect(0, 0, 600, 600);
+	m_QScene->setSceneRect(0, 0, 1000, 1000);
 	this->setFixedSize(QSize(800, 800));
-
 
 	QWidget* mainWidget = new QWidget(this);
 	setCentralWidget(mainWidget);
@@ -20,9 +21,18 @@ RVOTest::RVOTest(QWidget* parent)
 	m_QView->setDragMode(QGraphicsView::ScrollHandDrag);
 	m_QView->resize(800, 800);
 	m_QView->setScene(m_QScene.get());
-	
-	QPen pen(Qt::green, 3, Qt::DashDotLine, Qt::RoundCap, Qt::RoundJoin);
+}
+
+void RVOTest::AddAgent(QPointF pos)
+{
+	QPen pen(Qt::green, 3, Qt::SolidLine);
 	QBrush brush(Qt::red, Qt::SolidPattern);
-	QRectF rect(100.0, 200.1, 11.2, 16.3);
-	m_QScene->addEllipse(rect, pen, brush);
+	QRectF rect(pos.x(), pos.y(), 5, 5);
+	m_agents.push_back(m_QScene->addEllipse(rect, pen, brush));
+}
+
+void RVOTest::UpdateAgentPosition(int index, QPointF pos)
+{
+	QGraphicsEllipseItem* test = m_agents[index];
+	test->setPos(pos);
 }

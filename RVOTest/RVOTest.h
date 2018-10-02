@@ -13,9 +13,12 @@ class RVOTest : public QMainWindow
 
 public:
 	RVOTest(QWidget* parent = Q_NULLPTR);
+	void AddAgent(QPointF pos);
+	void UpdateAgentPosition(int index, QPointF pos);
 
 private:
 	Ui::RVOTestClass ui;
-	std::unique_ptr<QGraphicsScene> m_QScene;
+	std::unique_ptr<QGraphicsScene> m_QScene; 
 	QGraphicsView* m_QView;
+	QVector<QGraphicsEllipseItem*> m_agents;
 };
