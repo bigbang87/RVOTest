@@ -43,6 +43,11 @@ void RVOTest::UpdateAgentPosition(int index, QPointF pos)
 	test->setPos(pos);
 }
 
+void RVOTest::AddPolygon(QVector<QPointF> poly)
+{
+	m_QScene->addPolygon(poly);
+}
+
 void RVOTest::setNumericalGrid()
 {
 	int multiplier = 100;

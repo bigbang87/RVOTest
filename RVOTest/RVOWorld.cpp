@@ -21,12 +21,40 @@ RVOWorld::RVOWorld(RVOTest* view)
 
 void RVOWorld::setupScenario(RVO::RVOSimulator *sim)
 {
-	sim->setTimeStep(0.01f);
+	sim->setTimeStep(0.51f);
 	sim->setAgentDefaults(15.0f, 10, 10.0f, 10.0f, 1.5f, 2.0f);
 
-	sim->addAgent(RVO::Vector2(-200.0f, -2.0f));
-	m_view->AddAgent(QPointF(0, -200));
-	goals.push_back(RVO::Vector2(0, 200));
+	for (int i = -7; i < 7; ++i)
+	{
+		for (int j = -7; j < 7; ++j)
+		{
+			sim->addAgent(RVO::Vector2(-250.0f + i * 5, -150.0f + j * 5));
+			m_view->AddAgent(QPointF(0, 0));
+			goals.push_back(RVO::Vector2(0 + i * 5, -10 + j * 5));
+		}
+	}
+
+	/*
+ * Add (polygonal) obstacles, specifying their vertices in counterclockwise
+ * order.
+ */
+	std::vector<RVO::Vector2> obstacle1, obstacle2, obstacle3, obstacle4;
+
+	obstacle1.push_back(RVO::Vector2(10.0f, 0.0f));
+	obstacle1.push_back(RVO::Vector2(-20.0f, 0.0f));
+	obstacle1.push_back(RVO::Vector2(-20.0f, -30.0f));
+	obstacle1.push_back(RVO::Vector2(10.0f, -30.0f));
+	QVector<QPointF> v1;
+	v1.push_back(QPointF(10.0f, 0.0f));
+	v1.push_back(QPointF(-20.0f, 0.0f));
+	v1.push_back(QPointF(-20.0f, -30.0f));
+	v1.push_back(QPointF(10.0f, -30.0f));
+	m_view->AddPolygon(v1);
+
+	sim->addObstacle(obstacle1);
+
+	/* Process the obstacles so that they are accounted for in the simulation. */
+	sim->processObstacles();
 }
 
 void RVOWorld::updateVisualization(RVO::RVOSimulator* sim)

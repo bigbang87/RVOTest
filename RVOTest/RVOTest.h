@@ -15,6 +15,7 @@ public:
 	RVOTest(QWidget* parent = Q_NULLPTR);
 	void AddAgent(QPointF pos);
 	void UpdateAgentPosition(int index, QPointF pos);
+	void AddPolygon(QVector<QPointF> pointArray);
 
 private:
 	void setNumericalGrid();
