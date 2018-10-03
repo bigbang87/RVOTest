@@ -17,6 +17,10 @@ public:
 	void UpdateAgentPosition(int index, QPointF pos);
 
 private:
+	void setNumericalGrid();
+	void setGrid();
+
+private:
 	Ui::RVOTestClass ui;
 	std::unique_ptr<QGraphicsScene> m_QScene; 
 	QGraphicsView* m_QView;

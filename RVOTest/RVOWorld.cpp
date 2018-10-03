@@ -3,7 +3,7 @@
 #include <QTimer>
 #include <QDebug>
 
-#include "RVOTest.h""
+#include "RVOTest.h"
 
 #ifndef M_PI
 const float M_PI = 3.14159265358979323846f;
@@ -21,18 +21,12 @@ RVOWorld::RVOWorld(RVOTest* view)
 
 void RVOWorld::setupScenario(RVO::RVOSimulator *sim)
 {
-	sim->setTimeStep(1.25f);
+	sim->setTimeStep(0.01f);
 	sim->setAgentDefaults(15.0f, 10, 10.0f, 10.0f, 1.5f, 2.0f);
 
-	for (size_t i = 0; i < 250; ++i)
-	{
-		float x = std::cos(i * 2.0f * M_PI / 250.0f);
-		float y = std::sin(i * 2.0f * M_PI / 250.0f);
-		sim->addAgent(200.0f * RVO::Vector2(x, y));
-		m_view->AddAgent(QPointF(x*200 + 500, y*200 + 500));
-		goals.push_back(-sim->getAgentPosition(i) * 2);
-		qDebug() << -sim->getAgentPosition(i).x() << -sim->getAgentPosition(i).y();
-	}
+	sim->addAgent(RVO::Vector2(-200.0f, -2.0f));
+	m_view->AddAgent(QPointF(0, -200));
+	goals.push_back(RVO::Vector2(0, 200));
 }
 
 void RVOWorld::updateVisualization(RVO::RVOSimulator* sim)
